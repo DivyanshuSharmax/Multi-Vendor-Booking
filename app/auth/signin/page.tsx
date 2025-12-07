@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, Calendar, Sparkles } from 'lucide-react';
@@ -18,7 +18,8 @@ export default function SignInPage() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const fallbackRedirect = '/'; // default for customers
+  const callbackUrl = searchParams.get('callbackUrl') ?? fallbackRedirect;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,13 +30,22 @@ export default function SignInPage() {
       const result = await signIn('credentials', {
         email,
         password,
+        callbackUrl,
         redirect: false,
       });
 
       if (result?.error) {
         setError('Invalid email or password');
       } else {
-        router.push(callbackUrl);
+        // Determine role‑based redirect if no explicit callbackUrl
+        const session = await getSession();
+        const roleRedirects: Record<string, string> = {
+          ADMIN: '/admin/dashboard',
+          VENDOR: '/vendor/dashboard',
+          CUSTOMER: '/',
+        };
+        const finalRedirect = callbackUrl !== fallbackRedirect ? callbackUrl : roleRedirects[(session?.user?.role as string).toUpperCase()] || fallbackRedirect;
+        router.push(finalRedirect);
         router.refresh();
       }
     } catch (err) {
