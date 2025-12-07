@@ -72,7 +72,7 @@ export default function CustomerBookings() {
   );
 }
 
-function BookingList({ bookings }: { bookings: typeof import("./page").bookings }) {
+function BookingList({ bookings }: { bookings: Array<{ service: string; vendor: string; date: string; status: string; image: string; price: number }> }) {
   if (bookings.length === 0) {
     return <p className="text-center text-muted-foreground mt-8">No bookings in this category.</p>;
   }

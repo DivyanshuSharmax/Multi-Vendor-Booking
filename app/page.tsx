@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, Clock, Shield, Zap, Users, TrendingUp, Search, Star, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,21 +13,21 @@ const featuredServices = [
     vendor: 'Chic Cuts',
     price: '50',
     rating: 4.9,
-    image: 'https://images.unsplash.com/photo-1521590832167-7ce6b839ba70?q=80&w=2070&auto=format&fit=crop',
+    image: '/images/featured-1.jpg',
   },
   {
     name: 'Deep Tissue Massage',
     vendor: 'Serenity Spa',
     price: '80',
     rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1544161515-cfd836b080e3?q=80&w=2070&auto=format&fit=crop',
+    image: '/images/featured-2.jpg',
   },
   {
     name: 'Luxury Manicure',
     vendor: 'Nailed It',
     price: '40',
     rating: 4.9,
-    image: 'https://images.unsplash.com/photo-1522338140262-f4650c35018c?q=80&w=2070&auto=format&fit=crop',
+    image: '/images/featured-3.jpg',
   },
 ];
 
@@ -66,9 +67,6 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center shadow-lg group-hover:shadow-glow transition-all duration-300 group-hover:scale-110">
-                <Calendar className="w-7 h-7 text-white" />
-              </div>
               <span className="text-2xl font-bold text-gradient">
                 BookingHub
               </span>
@@ -141,6 +139,7 @@ export default function HomePage() {
             </Button>
           </div>
 
+
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto">
             {stats.map((stat, index) => (
@@ -164,9 +163,11 @@ export default function HomePage() {
             {featuredServices.map((service, index) => (
               <Card key={index} className="group overflow-hidden border-0 shadow-lg hover:shadow-premium transition-all duration-300 transform hover:-translate-y-2">
                 <div className="relative h-56 overflow-hidden">
-                  <img
+                  <Image
                     src={service.image}
                     alt={service.name}
+                    layout="fill"
+                    objectFit="cover"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -187,8 +188,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* How It Works Section */}
       <section className="py-20 bg-gradient-to-br from-orange-50 to-red-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -247,13 +246,8 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
-                  <Calendar className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-xl font-bold">BookingHub</span>
-              </div>
-              <p className="text-gray-400">The easiest way to book services online.</p>
+              <span className="text-xl font-bold">BookingHub</span>
+              <p className="text-gray-400 mt-2">The easiest way to book services online.</p>
             </div>
             <div>
               <h3 className="font-semibold mb-4 text-lg">For Customers</h3>
